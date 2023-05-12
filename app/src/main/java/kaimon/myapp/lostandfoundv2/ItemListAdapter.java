@@ -63,7 +63,6 @@ public class ItemListAdapter extends ListAdapter<Item, ItemListAdapter.MyViewHol
             itemName = itemView.findViewById(R.id.textView2);
             location = itemView.findViewById(R.id.textView3);
             date = itemView.findViewById(R.id.textView4);
-            lostOrFound = itemView.findViewById(R.id.textView5);
 
             delete = itemView.findViewById(R.id.delete);
         }
