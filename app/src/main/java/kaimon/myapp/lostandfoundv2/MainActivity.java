@@ -13,7 +13,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     ItemViewModel itemViewModel;
-    Button viewListings, createListing;
+    Button viewListings, createListing, viewMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
         viewListings = findViewById(R.id.viewListings);
         createListing = findViewById(R.id.createAd);
+        createListing = findViewById(R.id.viewMap);
 
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+
+        viewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(MainActivity.this, MapViewActivity.class);
+                startActivity(mapIntent);
+            }
+        });
 
         createListing.setOnClickListener(new View.OnClickListener() {
             @Override
