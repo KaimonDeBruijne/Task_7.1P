@@ -28,11 +28,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.libraries.places:places:3.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'

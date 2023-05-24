@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewListings = findViewById(R.id.viewListings);
         createListing = findViewById(R.id.createAd);
-        createListing = findViewById(R.id.viewMap);
+        viewMap = findViewById(R.id.viewMap);
 
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 

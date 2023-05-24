@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class ItemListAdapter extends ListAdapter<Item, ItemListAdapter.MyViewHolder> {
 
     Context context;
@@ -40,7 +39,6 @@ public class ItemListAdapter extends ListAdapter<Item, ItemListAdapter.MyViewHol
         holder.itemName.setText(current.getItemName());
         holder.location.setText(current.getLocation());
         holder.date.setText(current.getDate());
-
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
