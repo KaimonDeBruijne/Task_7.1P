@@ -1,18 +1,12 @@
 package kaimon.myapp.lostandfoundv2;
 
-
-import static java.lang.System.in;
-
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -75,9 +69,11 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
 
                     location = item.getLocation();
                     LatLng place = coords(location);
+                    String itemName = item.getItemName();
+                    String name = item.getName();
 
                     if(place != null){
-                        googleMap.addMarker(new MarkerOptions().position(place));
+                        googleMap.addMarker(new MarkerOptions().position(place).title(name + " - " + itemName));
                     }
                 }
             });

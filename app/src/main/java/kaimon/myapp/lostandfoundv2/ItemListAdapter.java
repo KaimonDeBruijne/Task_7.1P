@@ -40,18 +40,13 @@ public class ItemListAdapter extends ListAdapter<Item, ItemListAdapter.MyViewHol
         holder.location.setText(current.getLocation());
         holder.date.setText(current.getDate());
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemViewModel.delete(current);
-            }
-        });
+        holder.delete.setOnClickListener(view -> itemViewModel.delete(current));
 
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name, itemName, location, date, lostOrFound;
+        TextView name, itemName, location, date;
         Button delete;
 
         public MyViewHolder(@NonNull View itemView) {

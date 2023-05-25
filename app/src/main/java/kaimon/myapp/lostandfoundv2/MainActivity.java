@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,29 +25,20 @@ public class MainActivity extends AppCompatActivity {
 
         itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
-        viewMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mapIntent = new Intent(MainActivity.this, MapViewActivity.class);
-                startActivity(mapIntent);
-            }
+        viewMap.setOnClickListener(view -> {
+            Intent mapIntent = new Intent(MainActivity.this, MapViewActivity.class);
+            startActivity(mapIntent);
         });
 
-        createListing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        createListing.setOnClickListener(v -> {
 
-                Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivityForResult(intent, 1);
-            }
+            Intent intent = new Intent(MainActivity.this, AddActivity.class);
+            startActivityForResult(intent, 1);
         });
 
-        viewListings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewIntent = new Intent(MainActivity.this, ViewAdActivity.class);
-                startActivity(viewIntent);
-            }
+        viewListings.setOnClickListener(view -> {
+            Intent viewIntent = new Intent(MainActivity.this, ViewAdActivity.class);
+            startActivity(viewIntent);
         });
 
     }
