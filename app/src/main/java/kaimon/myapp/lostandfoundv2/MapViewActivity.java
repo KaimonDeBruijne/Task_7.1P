@@ -6,22 +6,31 @@ import static java.lang.System.in;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-        import com.google.android.gms.maps.OnMapReadyCallback;
-        import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
 
+
 public class MapViewActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
+    String location;
     ItemViewModel itemViewModel;
 
     @Override
@@ -31,36 +40,57 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
     }
 
+    private LatLng coords(String location){
+
+        Geocoder geocoder = new Geocoder(this);
+        LatLng latLng = null;
+
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(location, 3);
+
+            if(addresses != null && !addresses.isEmpty()){
+                Address address = addresses.get(0);
+                latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            }
+        } catch (IOException e) {
+//            throw new RuntimeException(e);
+        }
+        return latLng;
+    }
+
+    public void add(GoogleMap googleMap){
+
+        LiveData<List<Item>> itemLiveData = itemViewModel.getAllItems();
+
+        itemLiveData.observe(this, items -> {
+                for(Item item : items){
+
+                    location = item.getLocation();
+                    LatLng place = coords(location);
+
+                    if(place != null){
+                        googleMap.addMarker(new MarkerOptions().position(place));
+                    }
+                }
+            });
+        }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Geocoder geocoder = new Geocoder(this);
-        List<Address> addresses;
-        LiveData<List<Item>> items = itemViewModel.getAllItems();
+        LatLng test = new LatLng(-37.81, 144.96);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 8));
 
-        for(int i = 0; i < items.getValue().size(); i++){
-            Item current = itemViewModel.itemRepository.itemList.getValue().get(i);
-            try {
-                addresses = geocoder.getFromLocationName(current.getLocation(), 1);
-
-                if(addresses != null){
-                    double lat = addresses.get(0).getLatitude();
-                    double lng = addresses.get(0).getLongitude();
-
-                    LatLng place = new LatLng(lat, lng);
-                    mMap.addMarker(new MarkerOptions().position(place));
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-
+        add(googleMap);
     }
 }
 
